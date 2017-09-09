@@ -1,6 +1,16 @@
 
 .page-home {
   height: 100%;
+  background: #161616;
+  padding-top: 100px;
+  box-sizing: border-box;
+  .display {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
 }
 
 .add-btn {
@@ -19,21 +29,50 @@
   border: dotted 1px #4fc08d;
 }
 
-.image-list {
+.photo-block {
   position: absolute;
-  bottom: 100px;
+  opacity: 0.5;
+  bottom: 50px;
   width: 80%;
-  background: #42b983;
   overflow: hidden;
   margin: 0 10%;
-  li {
-    float: left;
-    width: 100px;
+  .image-list {
+    width: 999999px;
     height: 100px;
-    line-height: 100px;
-    img {
-      width: 100%;
+    li {
+      float: left;
+      cursor: pointer;
+      width: 100px;
+      margin-left: 20px;
+      height: 100px;
+      line-height: 100px;
+      img {
+        width: 100%;
+      }
     }
-  }
 
+  }
+}
+
+.active {
+  border: 2px solid dodgerblue;
+  box-sizing: border-box;
+}
+
+.arrow-left {
+  position: absolute;
+  top: 50%;
+  margin-top: -22px;
+  left: 5%;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.arrow-right {
+  position: absolute;
+  top: 50%;
+  margin-top: -22px;
+  right: 5%;
+  opacity: 0.5;
+  cursor: pointer;
 }

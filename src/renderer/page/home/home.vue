@@ -1,17 +1,21 @@
 <template>
     <div class="page-home">
-        <div class="display" v-if="show">
-            <ul class="image-list">
-                <li v-for="item in imageList" :key="item">
-                    <img :src='item'  />
-                </li>
-            </ul>
+        <div class="display" v-if="show" >
+            <div class="photo-block" >
+                <ul class="image-list">
+                    <li v-for="item in imageList" :class="{ active: item.id == isActive}" :key="item.id" @click="changeImg(item)">
+                        <img :src='item.url'  />
+                    </li>
+                </ul>
+            </div>
+            <img class="arrow-left" src="../../assets/l-arrow.png" @click="prev" />
+            <img class="arrow-right" src="../../assets/r-arrow.png" @click="next"  />
         </div>
         
         <div class="add-btn" v-else @click="add">
             Drag or Click your file to here ！
         </div>
-     
+    
     
     </div>
 </template>
@@ -21,7 +25,7 @@
     
     
     var fs = require('fs')
-  
+    
     
     // const  shell = require('shell');
     
@@ -29,17 +33,27 @@
         name: 'page-home',
         data() {
             return {
-                show: true,
-                imageList: [
-                    require('../../assets/logo.png'),
-                    require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),require('../../assets/logo.png'),
-                ]
+                once: true,
+                isActive: 1,
+                show: false,
+                imageList: []
+                
             }
         },
         filters: {},
         methods: {
+            prev: function () {
+            
+            },
+            next: function () {
+            
+            },
             add: function () {
                 ipc.send('open-file-dialog')
+            },
+            changeImg: function (item) {
+                this.isActive = item.id
+                document.querySelector('.display').style.backgroundImage = `url( ${item.url} )`
             }
         },
         components: {},
@@ -48,8 +62,8 @@
              * 监听事件函数
              * @type {ElementTagNameMap[string]|any|Element|any}
              */
-            
-            ipc.on('selected-directory', function (event, path) {
+            ipc.on('selected-directory', (event, path)=> {
+                this.show = true
                 fs.stat(path[0], (err, stats)=> {
                     if (err) {
                         return
@@ -57,16 +71,33 @@
                         var buffer = fs.readFileSync(path[0]);
                         var blob = new Blob([buffer]);
                         var src = window.URL.createObjectURL(blob); //静态方法会创建一个 DOMString
-                        this.imageList.push(src)
+                        this.imageList.push({
+                            url: src,
+                            id: 1
+                        })
+                        document.querySelector('.display').style.backgroundImage =  `url( ${src} )`
                     } else {
                         fs.readdir(path[0], (err, files)=> {
                             if (err) {
                                 return console.log(err)
                             }
-                            console.log(files)
-                            files.forEach( function (file){
-                                const url = path[0] + '/' + file;
-                                this.imageList.push(url)
+                            files.forEach( (file, i)=> {
+                                
+                                if (file.slice(-3) == 'jpg' || file.slice(-3) == 'png' || file.slice(-4) == 'jpeg') {
+                                    
+                                    const url = path[0] + '/' + file;
+                                    const buffer = fs.readFileSync(url);
+                                    const blob = new Blob([buffer]);
+                                    const src = window.URL.createObjectURL(blob); //静态方法会创建一个 DOMString
+                                    this.imageList.push({
+                                        url: src,
+                                        id: i
+                                    })
+                                    if (this.once) {
+                                        this.once =false
+                                        document.querySelector('.display').style.backgroundImage = `url( ${src} )`
+                                    }
+                                }
                             });
                         })
                     }
