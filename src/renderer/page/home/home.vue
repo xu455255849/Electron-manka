@@ -1,19 +1,19 @@
 <template>
     <div class="page-home">
         <div class="display" v-if="show" >
-            <div class="photo-block" >
+            <div class="photo-block" @mouseover="out" @mouseout="set" >
                 <ul class="image-list" :style="{ width: scrollWidth + 'px'}">
-                    <li v-for="item in imageList" :class="{ active: item.id == isActive}" :key="item.id" @click="changeImg(item)">
+                    <li v-for="item in imageList" :class="{ active: item.id == isActive}" :key="item.id" @click="changeImg(item)" v-show="itemShow">
                         <img :src='item.url'  />
                     </li>
                 </ul>
             </div>
-            <img class="arrow-left" src="../../assets/l-arrow.png" @click="prev" />
-            <img class="arrow-right" src="../../assets/r-arrow.png" @click="next"  />
-            <img class="act-img" src="actImg" :class="{
-                activeAllImg: actImgHeight > height && actImgWidth > width,
-                activeHeiImg: actImgHeight > height && actImgWidth <= width,
-                activeWidImg: actImgHeight <= height && actImgWidth > width
+            <img v-show="itemShow" class="arrow-left" src="../../assets/l-arrow.png" @click="prev" />
+            <img v-show="itemShow" class="arrow-right" src="../../assets/r-arrow.png" @click="next"  />
+            <img class="act-img" src="actImg" @mouseover="set" @mouseout="out" :class="{
+                //activeAllImg: actImgHeight <= height && actImgWidth <= width,
+                activeHeiImg: actImgHeight >= actImgWidth ,
+                activeWidImg: actImgHeight <= actImgWidth
             }">
         </div>
         
@@ -49,31 +49,32 @@
                 scrollWidth: 0,
                 index: 0,
                 scrollLeft: 0,
+                itemShow: false,
             }
         },
         watch: {
         
         },
         methods: {
-          
+            set: function () {
+              this.itemShow = false
+            },
+            out: function () {
+              this.itemShow = true
+            },
             prev: function () {
-                if (document.querySelector('.photo-block').scrollLeft == 0) {
+                if (this.isActive == 0) {
                     ipc.send('first')
-                } else if (this.scrollWidth < this.width) {
-                    console.log(this.imageList[this.isActive -  1])
-                    
+                } else {
+                    this.changeImg(this.imageList[this.isActive - 1])
                 }
             },
             next: function () {
-                
-                console.log(document.querySelector('.image-list').scrollLeft = 200)
-                if (document.querySelector('.photo-block').scrollLeft == 0) {
-                    ipc.send('first')
+                if (this.isActive == this.imageList.length -1) {
                     ipc.send('last')
-                    
-                    
+                } else  {
+                    this.changeImg(this.imageList[this.isActive + 1])
                 }
-                document.querySelector('.photo-block').scrollLeft += 120;
             },
             add: function () {
                 ipc.send('open-file-dialog')
@@ -81,9 +82,10 @@
             changeImg: function (item) {
                 document.querySelector('.act-img').src = item.url
                 this.isActive = item.id
-                this.scrollLeft = item.id * 120
                 this.actImgHeight = item.height
                 this.actImgWidth = item.width
+                this.scrollLeft = item.id * 120
+                document.querySelector('.photo-block').scrollLeft = this.scrollLeft - this.width/2
             }
         },
         components: {},
