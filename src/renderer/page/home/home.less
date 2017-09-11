@@ -6,11 +6,23 @@
   box-sizing: border-box;
   .display {
     width: 80%;
-    height: 80%;
-    margin: auto;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    height: 100%;
+    margin: 0 10%;
+    text-align: center;
   }
+}
+
+.activeAllImg {
+  height: 99%;
+  width: 100%;
+}
+
+.activeWidImg {
+  width: 100%;
+}
+
+.activeHeiImg {
+  height: 99%;
 }
 
 .add-btn {
@@ -29,15 +41,17 @@
   border: dotted 1px #4fc08d;
 }
 
+
 .photo-block {
   position: absolute;
   opacity: 0.5;
-  bottom: 50px;
+  bottom: 0;
   width: 80%;
-  overflow: hidden;
-  margin: 0 10%;
+  height: 100px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin: 0 auto;
   .image-list {
-    width: 999999px;
     height: 100px;
     li {
       float: left;
@@ -48,6 +62,7 @@
       line-height: 100px;
       img {
         width: 100%;
+        vertical-align: middle;
       }
     }
 

@@ -53,5 +53,6 @@
     
     /* 重置列表元素 */
     ul, ol { list-style: none; }
+    button { outline: none; }
 
 </style>

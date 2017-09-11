@@ -55,6 +55,13 @@ ipc.on('open-file-dialog', function (event) {
     })
 })
 
+ipc.on('first', function (e) {
+    dialog.showErrorBox('错误提示', '已经是第一张图片了')
+    //dialog.showErrorBox('已经是第一张图片了')
+})
+ipc.on('last', function (e) {
+    dialog.showErrorBox('错误提示', '已经是最后一张图片了')
+})
 
 
 
