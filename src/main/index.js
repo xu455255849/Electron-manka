@@ -21,9 +21,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 600,
+   // height: 600,
     useContentSize: true,
-    width: 1000
+  //  width: 1000
   })
 
   mainWindow.loadURL(winURL)
@@ -62,7 +62,13 @@ ipc.on('first', function (e) {
 ipc.on('last', function (e) {
     dialog.showErrorBox('错误提示', '已经是最后一张图片了')
 })
-
+ipc.on('minWindow', function (e) {
+   
+    mainWindow.unmaximize()
+})
+ipc.on('maxWindow', function (e) {
+    mainWindow.maximize()
+})
 
 
 

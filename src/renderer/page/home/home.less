@@ -1,15 +1,31 @@
 
 .page-home {
   height: 100%;
-  background: #161616;
-  padding-top: 100px;
   box-sizing: border-box;
   .display {
     width: 80%;
     height: 100%;
     margin: 0 10%;
     text-align: center;
+    button {
+      height: 50px;
+      width: 100px;
+      background: #161616;
+      font-size: 24px;
+      border: none;
+      color: #d8d8d8;
+      position: fixed;
+      top: 10px;
+      margin-left: -50px;
+      left: 50%;
+      cursor: pointer;
+    }
   }
+}
+
+.bgColor {
+  padding-top: 100px;
+  background-color: #161616;
 }
 
 .activeAllImg {
@@ -27,20 +43,59 @@
 
 .add-btn {
   position: fixed;
-  width: 500px;
-  height: 200px;
+  width: auto;
+  height: 36px;
+  line-height: 36px;
   cursor: pointer;
   font-size: 24px;
-  left: 50%;
-  margin-left: -250px;
-  top: 50%;
-  margin-top: -175px;
+  right: 5%;
+  bottom: 5%;
   text-align: center;
   border-radius: 20px;
-  padding-top: 150px;
-  border: dotted 1px #4fc08d;
 }
 
+.history-list {
+  height: 100%;
+  width: 200px;
+  //overflow-y: scroll;
+  overflow: hidden;
+
+  font-size: 16px;
+  .history-item {
+    margin-top: 20px;
+    padding: 0 20px;
+    &:hover {
+      background-color: blanchedalmond;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+    p:last-child {
+      width: 180px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 12px;
+      overflow: hidden;
+    }
+  }
+  img {
+    float: right;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    &:hover {
+      animation: btn linear 2s infinite;
+    }
+  }
+}
+
+@keyframes btn {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .photo-block {
   position: absolute;

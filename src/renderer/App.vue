@@ -22,6 +22,9 @@
     html, body {
         width: 100%;
         height: 100%;
+        background-image: url("./assets/bg.jpg");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
     }
     
     /* 重置文本格式元素 */
