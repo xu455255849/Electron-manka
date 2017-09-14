@@ -1,6 +1,6 @@
 {
   "name": "my-project",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "徐绍平 <455255849@qq.com>",
   "description": "An electron-vue project",
   "license": null,
@@ -78,7 +78,7 @@
     "css-loader": "^0.28.4",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
-    "electron": "^1.7.5",
+    "electron": "^1.7.6",
     "electron-builder": "^19.19.1",
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.2.0",

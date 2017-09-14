@@ -11,10 +11,10 @@
             </div>
             <img v-show="itemShow" class="arrow-left" src="../../assets/l-arrow.png" @click="prev" />
             <img v-show="itemShow" class="arrow-right" src="../../assets/r-arrow.png" @click="next"  />
-            <img class="act-img" src="actImg" @mouseover="set" @mouseout="out" :class="{
-                //activeAllImg: actImgHeight <= height && actImgWidth <= width,
-                activeHeiImg: actImgHeight >= actImgWidth ,
-                activeWidImg: actImgHeight <= actImgWidth
+            <img class="act-img" style="max-width: 100%;max-height: 100%"  src="actImg" @mouseover="set" @mouseout="out" :class="{
+               // activeAllImg: actImgHeight >= height && actImgWidth >= width,
+                activeHeiImg: actImgHeight >= actImgWidth && actImgHeight >= width ,
+                activeWidImg: actImgWidth >= actImgHeight && actImgWidth >= height
             }" />
         </div>
         
@@ -33,8 +33,8 @@
 
 <script>
     const ipc = require('electron').ipcRenderer;
-    var fs = require('fs')
-    var sizeOf = require('image-size');
+    const fs = require('fs')
+    const sizeOf = require('image-size');
     
     
     // const  shell = require('shell');
@@ -53,7 +53,7 @@
                 imageList: [],
                 foldList: [],
                 height: document.documentElement.clientHeight - 100,
-                width: document.documentElement.clientWidth,
+                width: document.documentElement.clientWidth * 0.8,
                 scrollWidth: 0,
                 index: 0,
                 scrollLeft: 0,
@@ -180,10 +180,10 @@
                 ipc.send('open-file-dialog')
             },
             changeImg: function (item) {
-                document.querySelector('.act-img').src = item.url
                 this.isActive = item.id
                 this.actImgHeight = item.height
                 this.actImgWidth = item.width
+                document.querySelector('.act-img').src = item.url
                 this.scrollLeft = item.id * 120
                 document.querySelector('.photo-block').scrollLeft = this.scrollLeft - this.width/2
             }
@@ -195,7 +195,7 @@
                    alert(err)
                console.log(num)
            })*/
-           
+          
             this.$db.find({}, (err, res)=> {
                 this.foldList = res
             })

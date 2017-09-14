@@ -2,7 +2,6 @@ import { app, BrowserWindow } from 'electron'
 const ipc = require('electron').ipcMain
 const dialog = require('electron').dialog
 
-
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
